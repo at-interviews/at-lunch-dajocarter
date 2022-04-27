@@ -1,3 +1,8 @@
+.body {
+  position: relative;
+  height: 100%;
+}
+
 .container {
   display: flex;
   align-items: stretch;
@@ -5,5 +10,22 @@
 
   @media (max-width: 767px) {
     height: calc(100% - 134px);
+  }
+}
+
+.viewFlipButton {
+  background-color: #428A13;
+  color: #FFFFFF;
+  border-radius: 6px;
+  border: 1px solid #428A13;
+  padding: 8.25px 12.777px;
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    display: none;
   }
 }

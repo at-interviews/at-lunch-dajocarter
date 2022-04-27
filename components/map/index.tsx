@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import { Loader } from '@googlemaps/js-api-loader'
 import { useEffect, useRef } from 'react'
 
-function Map () {
+function Map ({ isListView }: { isListView: boolean }) {
   const googleMap = useRef(null);
   useEffect(() => {
     const loader = new Loader({
@@ -23,7 +23,7 @@ function Map () {
   });
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles['container']} ${isListView ? styles['outView'] : styles['inView']}`}>
       <div className={styles.map} ref={googleMap} />
     </div>
   )

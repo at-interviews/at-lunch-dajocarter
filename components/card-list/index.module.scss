@@ -2,3 +2,18 @@
   flex: 0 0 34%;
   padding: 24px;
 }
+
+.inView {
+  @media (max-width: 767px) {
+    width: 100%;
+    flex: auto;
+  }
+}
+
+.outView {
+  @media (max-width: 767px) {
+    flex: 1;
+    width: 0;
+    padding: 0;
+  }
+}
