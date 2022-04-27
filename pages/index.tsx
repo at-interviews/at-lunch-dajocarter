@@ -1,6 +1,6 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import styles from './index.module.scss'
-import Header from '@/components/header'
 import CardList from '@/components/card-list'
 import Map from '@/components/map'
 import { useState } from 'react'
@@ -17,7 +17,15 @@ export default function Home() {
       <Head>
         <title>AllTrails at Lunch</title>
       </Head>
-      <Header />
+      <header className={styles.navbar}>
+        <Image src="/Logo.png" alt="AllTrails At Lunch" height={34} width={269} />
+        <div className={styles.searchContainer}>
+          <button className={styles.sortButton}>Sort</button>
+          <form>
+            <input type='search' placeholder='Search for a restaurant' className={styles.searchInput} />
+          </form>
+        </div>
+      </header>
       <main className={styles.container}>
         <CardList isListView={isListView} />
         <Map isListView={isListView} />
