@@ -13,11 +13,23 @@ const loader = new Loader({
 
 export default function Home() {
   const [isListView, setListView] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
   const [googleAPI, setGoogleAPI] = useState(null)
   const [map, setMap] = useState(null)
+  const [restaurants, setRestaurants] = useState([])
 
   function flipView () {
     setListView(isListView => !isListView)
+  }
+
+  function handleSearch (e: FormEvent) {
+    e.preventDefault()
+    const mapCenter = map.getCenter()
+    fetch(`/api/search?keyword=${searchQuery}&location=${mapCenter.lat()},${mapCenter.lng()}`)
+      .then(res => res.json())
+      .then(data => {
+        setRestaurants(data)
+      })
   }
 
   const googleMapRef = useRef(null);
@@ -45,13 +57,13 @@ export default function Home() {
         <Image src="/Logo.png" alt="AllTrails At Lunch" height={34} width={269} />
         <div className={styles.searchContainer}>
           <button className={styles.sortButton}>Sort</button>
-          <form>
-            <input type='search' placeholder='Search for a restaurant' className={styles.searchInput} />
+          <form onSubmit={handleSearch}>
+            <input type='search' placeholder='Search for a restaurant' className={styles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </form>
         </div>
       </header>
       <main className={styles.container}>
-        <CardList isListView={isListView} />
+        <CardList isListView={isListView} cards={restaurants} />
         <div className={`${styles['mapContainer']} ${isListView ? styles['outView'] : styles['inView']}`}>
           <div className={styles.map} ref={googleMapRef} />
         </div>
