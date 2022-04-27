@@ -89,3 +89,24 @@
     display: none;
   }
 }
+
+.mapContainer {
+  flex: 0 0 66%;
+}
+
+.inView {
+  @media (max-width: 767px) {
+    width: 100%;
+    flex: auto;
+  }
+}
+
+.outView {
+  @media (max-width: 767px) {
+    flex: 1;
+  }
+}
+
+.map {
+  height: 100%;
+}
