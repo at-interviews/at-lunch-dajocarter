@@ -16,6 +16,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   const [googleAPI, setGoogleAPI] = useState(null)
   const [map, setMap] = useState(null)
+  const [mapMarkers, setMapMarkers] = useState([])
   const [restaurants, setRestaurants] = useState([])
 
   function flipView () {
@@ -24,6 +25,10 @@ export default function Home() {
 
   function handleSearch (e: FormEvent) {
     e.preventDefault()
+    // clear markers on search
+    mapMarkers.forEach(marker => marker.setMap(null))
+    setMapMarkers([])
+    // request restaurants
     const mapCenter = map.getCenter()
     fetch(`/api/search?keyword=${searchQuery}&location=${mapCenter.lat()},${mapCenter.lng()}`)
       .then(res => res.json())
@@ -31,6 +36,19 @@ export default function Home() {
         setRestaurants(data)
       })
   }
+
+  useEffect(() => {
+    if (restaurants.length) {
+      restaurants.forEach(place => {
+        const marker = new googleAPI.maps.Marker({
+          position: place.geometry.location,
+          title: place.name
+        })
+        marker.setMap(map)
+        setMapMarkers(markers => [...markers, marker])
+      })
+    }
+  }, [restaurants, map, googleAPI])
 
   const googleMapRef = useRef(null);
   useEffect(() => {
