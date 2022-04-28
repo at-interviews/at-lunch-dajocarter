@@ -23,6 +23,7 @@ export interface Restaurant {
   opening_hours?: {
     open_now: boolean;
   }
+  photos: { photo_reference: string }[];
   permanently_closed?: boolean;
   place_id: string;
   price_level?: number;
