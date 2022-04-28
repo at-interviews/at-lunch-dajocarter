@@ -77,7 +77,8 @@ export default function Home() {
       restaurants.forEach(place => {
         const marker = new googleAPI.maps.Marker({
           position: place.geometry.location,
-          title: place.name
+          title: place.name,
+          icon: '/pin_unselected.png'
         })
         marker.setMap(map)
         setMapMarkers(markers => [...markers, marker])
