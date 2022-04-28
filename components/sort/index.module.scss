@@ -1,0 +1,48 @@
+.sortButton {
+  border: 1px solid #E6E6E6;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  color: #808080;
+  padding: 8.25px 12.777px;
+  margin-right: 16px;
+
+  &:hover {
+    background-color: #428A13;
+    border-color: #428A13;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+}
+
+.sortButtonContainer {
+  position: relative;
+}
+
+.tooltipContainer {
+  position: absolute;
+  right: 16px;
+  bottom: -8px;
+  border: 1px solid #E6E6E6;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  color: #808080;
+  transform: translateY(100%);
+  z-index: 100;
+  padding: 16px;
+  width: 208px;
+  height: 106px;
+}
+
+.sortForm {
+  font-size: 14px;
+}
+
+.applySort {
+  border: 0;
+  color: #428A13;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}

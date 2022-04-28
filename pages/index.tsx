@@ -4,6 +4,7 @@ import styles from './index.module.scss'
 import CardList from '@/components/card-list'
 import { FormEvent, useState, useRef, useEffect } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
+import SortButton from '@/components/sort'
 
 const loader = new Loader({
   apiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY || '',
@@ -38,9 +39,21 @@ export default function Home() {
   const [map, setMap] = useState<any>(null)
   const [mapMarkers, setMapMarkers] = useState<{ setMap: (arg0: any) => void }[]>([])
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+  const [sortingPref, setSortingPref] = useState('')
+  const [sortingApplied, applySort] = useState(false)
 
   function flipView () {
     setListView(isListView => !isListView)
+  }
+
+  function sortRestauraunts(restaurants: Restaurant[], preference: string) {
+    let sortedRestaurants = restaurants
+    if (preference === 'DESC') {
+      sortedRestaurants = restaurants.sort((a, b) => b.rating - a.rating)
+    } else if (preference === 'ASC') {
+      sortedRestaurants = restaurants.sort((a, b) => a.rating - b.rating)
+    }
+    return sortedRestaurants
   }
 
   function handleSearch (e: FormEvent) {
@@ -52,8 +65,10 @@ export default function Home() {
     const mapCenter = map.getCenter()
     fetch(`/api/search?keyword=${searchQuery}&location=${mapCenter.lat()},${mapCenter.lng()}`)
       .then(res => res.json())
-      .then(data => {
-        setRestaurants(data)
+      .then((data: Restaurant[]) => {
+        let sortedRestaurants = data
+        if (sortingApplied && sortingPref) sortedRestaurants = sortRestauraunts(data, sortingPref)
+        setRestaurants(sortedRestaurants)
       })
   }
 
@@ -85,7 +100,14 @@ export default function Home() {
       setMap(googleMap)
     });
   }, []);
- 
+
+  function handleSort (pref: string) {
+    applySort(true)
+    setSortingPref(pref)
+    const sortedRestaurants = sortRestauraunts(restaurants, pref)
+    setRestaurants(sortedRestaurants)
+  }
+
   return (
     <div className={styles.body}>
       <Head>
@@ -94,9 +116,15 @@ export default function Home() {
       <header className={styles.navbar}>
         <Image src="/Logo.png" alt="AllTrails At Lunch" height={34} width={269} />
         <div className={styles.searchContainer}>
-          <button className={styles.sortButton}>Sort</button>
+          <SortButton handleSort={handleSort} />
           <form onSubmit={handleSearch}>
-            <input type='search' placeholder='Search for a restaurant' className={styles.searchInput} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+            <input
+              type='search'
+              className={styles.searchInput}
+              placeholder='Search for a restaurant'
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
           </form>
         </div>
       </header>
