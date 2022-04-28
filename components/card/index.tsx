@@ -3,8 +3,9 @@ import { Fragment, useEffect, useState } from 'react'
 import StarRating from '../star-rating'
 import styles from './index.module.scss'
 import Cookies from 'js-cookie'
+import { Restaurant } from '@/pages/index'
 
-function Card ({ card }) {
+function Card ({ card }: { card: Restaurant }) {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
@@ -55,7 +56,7 @@ function Card ({ card }) {
   )
 }
 
-function SupportingText ({ card }) {
+function SupportingText ({ card }: { card: Restaurant }) {
   let text = 'Call for info'
   if (card?.business_status === 'OPERATIONAL') {
     text = card?.opening_hours?.open_now ? 'Open Now' : 'Not Open'

@@ -1,7 +1,8 @@
+import { Restaurant } from '@/pages/index';
 import Card from '../card'
 import styles from './index.module.scss'
 
-function CardList ({ isListView, cards = [] }: { isListView: boolean; cards: [] }) {
+function CardList ({ isListView, cards }: { isListView: boolean; cards: Restaurant[] }) {
   return (
     <div className={`${styles['container']} ${isListView ? styles['inView'] : styles['outView']}`}>
       {cards.length > 1 && (

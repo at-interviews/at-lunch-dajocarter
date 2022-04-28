@@ -6,18 +6,37 @@ import { FormEvent, useState, useRef, useEffect } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 
 const loader = new Loader({
-  apiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY || '',
   version: 'weekly',
   libraries: ['places']
 });
 
+export interface Restaurant {
+  business_status?: 'OPERATIONAL' | 'CLOSED_TEMPORARILY'
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    }
+  }
+  name: string;
+  opening_hours?: {
+    open_now: boolean;
+  }
+  permanently_closed?: boolean;
+  place_id: string;
+  price_level?: number;
+  rating: number;
+  user_ratings_total: number;
+}
+
 export default function Home() {
   const [isListView, setListView] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [googleAPI, setGoogleAPI] = useState(null)
-  const [map, setMap] = useState(null)
-  const [mapMarkers, setMapMarkers] = useState([])
-  const [restaurants, setRestaurants] = useState([])
+  const [googleAPI, setGoogleAPI] = useState<any>(null)
+  const [map, setMap] = useState<any>(null)
+  const [mapMarkers, setMapMarkers] = useState<{ setMap: (arg0: any) => void }[]>([])
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
   function flipView () {
     setListView(isListView => !isListView)
