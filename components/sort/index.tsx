@@ -8,6 +8,7 @@ function SortButton ({ handleSort }: { handleSort: (arg0: string) => void }) {
   function handleSubmit (e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     handleSort(sortValue)
+    setSortOpen(false)
   }
 
   function handleChange (e: ChangeEvent<HTMLInputElement>) {
