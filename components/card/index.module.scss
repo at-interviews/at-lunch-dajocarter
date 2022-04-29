@@ -46,3 +46,12 @@
     cursor: pointer;
   }
 }
+
+.ratingsContainer {
+  display: flex;
+
+  span {
+    color: #A6A6A6;
+    font-size: 12px;
+  }
+}

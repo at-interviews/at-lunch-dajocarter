@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from './index.module.scss'
-import CardList from '@/components/card-list'
 import { FormEvent, useState, useRef, useEffect } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import SortButton from '@/components/sort'
+import Card from '@/components/card'
 
 const loader = new Loader({
   apiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY || '',
@@ -130,8 +130,16 @@ export default function Home() {
         </div>
       </header>
       <main className={styles.container}>
-        <CardList isListView={isListView} cards={restaurants} />
-        <div className={`${styles['mapContainer']} ${isListView ? styles['outView'] : styles['inView']}`}>
+        <div className={`${styles.cardListContainer} ${isListView ? styles.inView : styles.outView}`}>
+          {restaurants.length > 1 && (
+            <ul className={styles.cardList}>
+              {restaurants.map((restaurant, i) => (
+                <li key={i}><Card card={restaurant} /></li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className={`${styles.mapContainer} ${isListView ? styles.outView : styles.inView}`}>
           <div className={styles.map} ref={googleMapRef} />
         </div>
       </main>
