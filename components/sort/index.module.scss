@@ -1,18 +1,25 @@
 .sortButton {
-  border: 1px solid #E6E6E6;
   border-radius: 6px;
-  background-color: #FFFFFF;
-  color: #808080;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
   padding: 8.25px 12.777px;
   margin-right: 16px;
-
-  &:hover {
-    background-color: #428A13;
-    border-color: #428A13;
-    color: #FFFFFF;
-    cursor: pointer;
-  }
 }
+
+.inactiveButton {
+  border-color: #E6E6E6;
+  background-color: #FFFFFF;
+  color: #808080;
+
+}
+
+.activeButton {
+  background-color: #428A13;
+  border-color: #428A13;
+  color: #FFFFFF;
+}
+
 
 .sortButtonContainer {
   position: relative;
@@ -31,6 +38,18 @@
   padding: 16px;
   width: 208px;
   height: 106px;
+
+  @media (max-width: 767px) {
+    right: auto;
+  }
+}
+
+.hiddenTooltip {
+  display: none;
+}
+
+.visibleTooltip {
+  display: block;
 }
 
 .sortForm {

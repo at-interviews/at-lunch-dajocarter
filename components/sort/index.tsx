@@ -3,6 +3,7 @@ import styles from './index.module.scss'
 
 function SortButton ({ handleSort }: { handleSort: (arg0: string) => void }) {
   const [sortValue, setSortValue] = useState('')
+  const [sortOpen, setSortOpen] = useState(false)
 
   function handleSubmit (e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -15,8 +16,8 @@ function SortButton ({ handleSort }: { handleSort: (arg0: string) => void }) {
 
   return (
     <div className={styles.sortButtonContainer}>
-      <button className={styles.sortButton}>Sort</button>
-      <div className={styles.tooltipContainer}>
+      <button className={`${styles.sortButton} ${sortOpen ? styles.activeButton : styles.inactiveButton}`} onClick={() => setSortOpen(open => !open)}>Sort</button>
+      <div className={`${styles.tooltipContainer} ${sortOpen ? styles.visibleTooltip : styles.hiddenTooltip}`}>
         <form className={styles.sortForm} onSubmit={handleSubmit}>
           <input
             type='radio'
