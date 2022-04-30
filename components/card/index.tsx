@@ -6,7 +6,6 @@ import { Restaurant } from '@/pages/index'
 
 function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) {
   const [isFavorite, setIsFavorite] = useState(false)
-  const [photoURL, setPhotoURL] = useState('')
 
   useEffect(() => {
     const favCookie = Cookies.get('favorites')
@@ -14,8 +13,10 @@ function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) 
     if (favCookie) {
       favorites = JSON.parse(favCookie)
     }
-    if (Array.isArray(favorites) && favorites.length) {
-      if (favorites.includes(card.place_id)) setIsFavorite(true)
+    if (Array.isArray(favorites) && favorites.length && card.place_id) {
+      if (favorites.includes(card.place_id)) {
+        setIsFavorite(true)
+      }
     }
   }, [card.place_id])
 
@@ -36,21 +37,10 @@ function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) 
     }
   }
 
-  useEffect(() => {
-    async function getPhoto(id: string) {
-      const response = await fetch(`/api/photos/${id}`)
-      const data = await response.json()
-      setPhotoURL(data.url)
-    }
-    if (Array.isArray(card.photos) && card.photos.length) {
-      getPhoto(card.photos[0].photo_reference)
-    }
-  }, [card.photos])
-
   return (
     <div className={styles.card}>
-      {photoURL
-        ? <Image src={photoURL} alt='Restaurant Photo' width={64} height={64} />
+      {card.photo_url
+        ? <Image src={card.photo_url} alt='Restaurant Photo' width={64} height={64} />
         : <div className={styles.loadingPhoto} />
       }
       <div className={styles.cardInfo}>

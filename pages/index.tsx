@@ -26,6 +26,7 @@ export interface Restaurant {
     open_now: boolean;
   }
   photos: { photo_reference: string }[];
+  photo_url?: string;
   permanently_closed?: boolean;
   place_id: string;
   price_level?: number;
