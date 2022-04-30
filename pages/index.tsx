@@ -86,7 +86,7 @@ export default function Home() {
     setActiveRestaurant(restaurant)
     const { marker, infoWindow } = mapObjects[restaurant.place_id]
     infoWindow.setContent(
-      renderToString(<Card card={restaurant} />)
+      renderToString(<Card card={restaurant} inMap={true} />)
     )
     infoWindow.open(map, marker)
     marker.setIcon('/pin_selected.png')
@@ -112,7 +112,7 @@ export default function Home() {
         marker.addListener('mouseover', () => {
           setActiveRestaurant(place)
           infoWindow.setContent(
-            renderToString(<Card card={place} />)
+            renderToString(<Card card={place} inMap={true} />)
           )
           infoWindow.open(map, marker)
           marker.setIcon('/pin_selected.png')
@@ -181,7 +181,7 @@ export default function Home() {
                   onMouseEnter={() => openWindow(restaurant)}
                   onMouseLeave={() => closeWindow(restaurant.place_id)}
                 >
-                  <Card card={restaurant} />
+                  <Card card={restaurant} inMap={false} />
                 </li>
               ))}
             </ul>

@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 import Cookies from 'js-cookie'
 import { Restaurant } from '@/pages/index'
 
-function Card ({ card }: { card: Restaurant }) {
+function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [photoURL, setPhotoURL] = useState('')
 
@@ -59,12 +59,14 @@ function Card ({ card }: { card: Restaurant }) {
           <StarRating stars={Math.floor(card.rating)} rating={card.user_ratings_total} />
           <p className={styles.moreInfo}><span>{Array.from({ length: card.price_level || 1 }).map((_, i) => (<Fragment key={i}>$</Fragment>))}</span><span>&nbsp; &middot; &nbsp;</span><SupportingText card={card} /></p>
         </div>
-        <div className={styles.favorite}>
-          {isFavorite
-            ? <Image src='/heart_full.png' alt='restaurant favorited' width={22} height={20} onClick={toggleFavorite} />
-            : <Image src='/heart_empty.png' alt='empty heart' width={22} height={20} onClick={toggleFavorite} />
-          }
-        </div>
+        {!inMap && (
+          <div className={styles.favorite}>
+            {isFavorite
+              ? <Image src='/heart_full.png' alt='restaurant favorited' width={22} height={20} onClick={toggleFavorite} />
+              : <Image src='/heart_empty.png' alt='empty heart' width={22} height={20} onClick={toggleFavorite} />
+            }
+          </div>
+        )}
       </div>
     </div>
   )
