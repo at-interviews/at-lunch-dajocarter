@@ -42,10 +42,6 @@ export default function Home() {
   const [sortingPref, setSortingPref] = useState('')
   const [sortingApplied, applySort] = useState(false)
 
-  function flipView () {
-    setListView(isListView => !isListView)
-  }
-
   function sortRestauraunts(restaurants: Restaurant[], preference: string) {
     let sortedRestaurants = restaurants
     if (preference === 'DESC') {
@@ -143,7 +139,7 @@ export default function Home() {
           <div className={styles.map} ref={googleMapRef} />
         </div>
       </main>
-      <button className={styles.viewFlipButton} onClick={flipView}>{isListView ? 'Map' : 'List'}</button>
+      <button className={styles.viewFlipButton} onClick={() => setListView(isListView => !isListView)}>{isListView ? 'Map' : 'List'}</button>
     </div>
   )
 }
