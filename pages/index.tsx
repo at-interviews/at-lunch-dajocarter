@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from './index.module.scss'
 import { FormEvent, useState, useRef, useEffect } from 'react'
+import { renderToString } from 'react-dom/server'
 import { Loader } from '@googlemaps/js-api-loader'
 import SortButton from '@/components/sort'
 import Card from '@/components/card'
@@ -32,15 +33,28 @@ export interface Restaurant {
   user_ratings_total: number;
 }
 
+interface Marker {
+  addListener: (arg0: string, arg1: () => void) => void;
+  setIcon: (arg0: string) => void;
+  setMap: (arg0: any) => void;
+}
+
+interface InfoWindow {
+  close: () => void;
+  setContent: (arg0: string) => void;
+  open: (arg0: any, arg1: Marker) => void;
+}
+
 export default function Home() {
   const [isListView, setListView] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [googleAPI, setGoogleAPI] = useState<any>(null)
   const [map, setMap] = useState<any>(null)
-  const [mapMarkers, setMapMarkers] = useState<{ setMap: (arg0: any) => void }[]>([])
+  const [mapObjects, setMapObjects] = useState<{[key: string]: { marker: Marker; infoWindow: InfoWindow; }}>({})
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [sortingPref, setSortingPref] = useState('')
   const [sortingApplied, applySort] = useState(false)
+  const [activeRestaurant, setActiveRestaurant] = useState<Restaurant | null>(null)
 
   function sortRestauraunts(restaurants: Restaurant[], preference: string) {
     let sortedRestaurants = restaurants
@@ -55,8 +69,8 @@ export default function Home() {
   function handleSearch (e: FormEvent) {
     e.preventDefault()
     // clear markers on search
-    mapMarkers.forEach(marker => marker.setMap(null))
-    setMapMarkers([])
+    Object.values(mapObjects).forEach(({ marker }) => marker.setMap(null))
+    setMapObjects({})
     // request restaurants
     const mapCenter = map.getCenter()
     fetch(`/api/search?keyword=${searchQuery}&location=${mapCenter.lat()},${mapCenter.lng()}`)
@@ -68,16 +82,47 @@ export default function Home() {
       })
   }
 
+  function openWindow (restaurant: Restaurant) {
+    setActiveRestaurant(restaurant)
+    const { marker, infoWindow } = mapObjects[restaurant.place_id]
+    infoWindow.setContent(
+      renderToString(<Card card={restaurant} />)
+    )
+    infoWindow.open(map, marker)
+    marker.setIcon('/pin_selected.png')
+  }
+
+  function closeWindow (placeId: string) {
+    setActiveRestaurant(null)
+    const { marker, infoWindow } = mapObjects[placeId]
+    marker.setIcon('/pin_unselected.png')
+    infoWindow.close()
+  }
+
   useEffect(() => {
     if (restaurants.length) {
       restaurants.forEach(place => {
-        const marker = new googleAPI.maps.Marker({
+        const marker: Marker = new googleAPI.maps.Marker({
           position: place.geometry.location,
           title: place.name,
           icon: '/pin_unselected.png'
         })
         marker.setMap(map)
-        setMapMarkers(markers => [...markers, marker])
+        const infoWindow: InfoWindow = new googleAPI.maps.InfoWindow()
+        marker.addListener('mouseover', () => {
+          setActiveRestaurant(place)
+          infoWindow.setContent(
+            renderToString(<Card card={place} />)
+          )
+          infoWindow.open(map, marker)
+          marker.setIcon('/pin_selected.png')
+        })
+        marker.addListener('mouseout', () => {
+          setActiveRestaurant(null)
+          marker.setIcon('/pin_unselected.png')
+          infoWindow.close()
+        })
+        setMapObjects(mapObjects => ({ ...mapObjects, [place.place_id]: { marker, infoWindow } }))
       })
     }
   }, [restaurants, map, googleAPI])
@@ -130,7 +175,14 @@ export default function Home() {
           {restaurants.length > 1 && (
             <ul className={styles.cardList}>
               {restaurants.map((restaurant, i) => (
-                <li key={i}><Card card={restaurant} /></li>
+                <li
+                  key={i}
+                  className={`${styles.cardListItem} ${(activeRestaurant?.place_id === restaurant.place_id) && styles.activeItem}`}
+                  onMouseEnter={() => openWindow(restaurant)}
+                  onMouseLeave={() => closeWindow(restaurant.place_id)}
+                >
+                  <Card card={restaurant} />
+                </li>
               ))}
             </ul>
           )}

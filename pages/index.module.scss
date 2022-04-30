@@ -87,11 +87,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
-  li {
-    margin-bottom: 8px;
-    width: 100%;
+.cardListItem {
+  margin-bottom: 8px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #E6E6E6;
+  
+  &:hover {
+    border-color: #428A13;
   }
+}
+
+.activeItem {
+  border-color: #428A13;
 }
 
 .mapContainer {
