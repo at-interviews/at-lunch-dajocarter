@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 import Cookies from 'js-cookie'
 import { Restaurant } from '@/pages/index'
 
-function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) {
+export default function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) 
       <div className={styles.cardInfo}>
         <div className={styles.restaurantInfo}>
           <p className={styles.title}>{card.name}</p>
-          <StarRating stars={Math.floor(card.rating)} rating={card.user_ratings_total} />
+          <StarRating stars={card.rating} rating={card.user_ratings_total} />
           <p className={styles.moreInfo}><span>{Array.from({ length: card.price_level || 1 }).map((_, i) => (<Fragment key={i}>$</Fragment>))}</span><span>&nbsp; &middot; &nbsp;</span><SupportingText card={card} /></p>
         </div>
         {!inMap && (
@@ -62,17 +62,17 @@ function Card ({ card, inMap = false }: { card: Restaurant; inMap?: boolean; }) 
   )
 }
 
-function StarRating ({ stars, rating }: { stars: number; rating: number; }) {
+export function StarRating ({ stars, rating }: { stars: number; rating: number; }) {
   return (
     <div className={styles.ratingsContainer}>
-      {Array.from({ length: stars }).map((_, i) => (<Image key={i} src='/star_full.png' alt='Filled-in Star' width={15} height={15} />))}
-      {Array.from({ length: (5 - stars) }).map((_, i) => (<Image key={i} src='/star_empty.png' alt='Empty Star' width={15} height={15} />))}
+      {Array.from({ length: Math.floor(stars) }).map((_, i) => (<Image key={i} src='/star_full.png' alt='Filled-in Star' width={15} height={15} />))}
+      {Array.from({ length: (5 - Math.floor(stars)) }).map((_, i) => (<Image key={i} src='/star_empty.png' alt='Empty Star' width={15} height={15} />))}
       <span>({ rating })</span>
     </div>
   )
 }
 
-function SupportingText ({ card }: { card: Restaurant }) {
+export function SupportingText ({ card }: { card: Restaurant }) {
   let text = 'Call for info'
   if (card?.business_status === 'OPERATIONAL') {
     text = card?.opening_hours?.open_now ? 'Open Now' : 'Not Open'
@@ -82,5 +82,3 @@ function SupportingText ({ card }: { card: Restaurant }) {
   }
   return <span>{text}</span>
 }
-
-export default Card

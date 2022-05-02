@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SortButton component matches snapshot after applying Sort 1`] = `
+<div>
+  <div
+    class="sortButtonContainer"
+  >
+    <button
+      class="sortButton inactiveButton"
+    >
+      Sort
+    </button>
+    <div
+      class="tooltipContainer hiddenTooltip"
+    >
+      <form
+        class="sortForm"
+      >
+        <input
+          id="high-low"
+          name="sort-by-ratings"
+          type="radio"
+          value="DESC"
+        />
+        <label
+          for="high-low"
+        >
+          Ratings: High to Low
+        </label>
+        <input
+          id="low-high"
+          name="sort-by-ratings"
+          type="radio"
+          value="ASC"
+        />
+        <label
+          for="low-high"
+        >
+          Ratings: Low to High
+        </label>
+        <button
+          class="applySort"
+          type="submit"
+        >
+          Apply
+        </button>
+      </form>
+    </div>
+  </div>
+  <div
+    class="overlay hiddenOverlay"
+  />
+</div>
+`;
+
+exports[`SortButton component matches snapshot after clicking Sort button 1`] = `
+<div>
+  <div
+    class="sortButtonContainer"
+  >
+    <button
+      class="sortButton activeButton"
+    >
+      Sort
+    </button>
+    <div
+      class="tooltipContainer visibleTooltip"
+    >
+      <form
+        class="sortForm"
+      >
+        <input
+          id="high-low"
+          name="sort-by-ratings"
+          type="radio"
+          value="DESC"
+        />
+        <label
+          for="high-low"
+        >
+          Ratings: High to Low
+        </label>
+        <input
+          id="low-high"
+          name="sort-by-ratings"
+          type="radio"
+          value="ASC"
+        />
+        <label
+          for="low-high"
+        >
+          Ratings: Low to High
+        </label>
+        <button
+          class="applySort"
+          type="submit"
+        >
+          Apply
+        </button>
+      </form>
+    </div>
+  </div>
+  <div
+    class="overlay activeOverlay"
+  />
+</div>
+`;
+
+exports[`SortButton component matches snapshot before clicking Sort button 1`] = `
+<div>
+  <div
+    class="sortButtonContainer"
+  >
+    <button
+      class="sortButton inactiveButton"
+    >
+      Sort
+    </button>
+    <div
+      class="tooltipContainer hiddenTooltip"
+    >
+      <form
+        class="sortForm"
+      >
+        <input
+          id="high-low"
+          name="sort-by-ratings"
+          type="radio"
+          value="DESC"
+        />
+        <label
+          for="high-low"
+        >
+          Ratings: High to Low
+        </label>
+        <input
+          id="low-high"
+          name="sort-by-ratings"
+          type="radio"
+          value="ASC"
+        />
+        <label
+          for="low-high"
+        >
+          Ratings: Low to High
+        </label>
+        <button
+          class="applySort"
+          type="submit"
+        >
+          Apply
+        </button>
+      </form>
+    </div>
+  </div>
+  <div
+    class="overlay hiddenOverlay"
+  />
+</div>
+`;
