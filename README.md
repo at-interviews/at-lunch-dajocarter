@@ -14,6 +14,8 @@ yarn dev
 
 ## Run Jest Tests
 
+There are test suites for the Card and SortButton components. In your terminal, run the following command:
+
 ```bash
 npm test
 # or
