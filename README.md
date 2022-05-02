@@ -14,7 +14,7 @@ I chose the [with-jest](https://github.com/vercel/next.js/tree/canary/examples/w
 
 ## How to Use
 
-For your convenience, this has been deployed to https://at-lunch.netlify.app
+For your convenience, this has been deployed to https://at-lunch.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/1e11e0cc-8205-44b5-8569-65918e64d300/deploy-status)](https://app.netlify.com/sites/at-lunch/deploys)
 
 To run the app locally, create a `.env.local` file at the root of this repo that contains `NEXT_PUBLIC_GMAPS_API_KEY=yourGoogleMapsAPIkey`. Then, in your terminal, run the following command:
 
