@@ -65,3 +65,20 @@
   bottom: 16px;
   right: 16px;
 }
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#FFFFFF, 0.5);
+}
+
+.activeOverlay {
+  z-index: 10;
+}
+
+.hiddenOverlay {
+  display: none;
+}

@@ -16,32 +16,35 @@ function SortButton ({ handleSort }: { handleSort: (arg0: string) => void }) {
   }
 
   return (
-    <div className={styles.sortButtonContainer}>
-      <button className={`${styles.sortButton} ${sortOpen ? styles.activeButton : styles.inactiveButton}`} onClick={() => setSortOpen(open => !open)}>Sort</button>
-      <div className={`${styles.tooltipContainer} ${sortOpen ? styles.visibleTooltip : styles.hiddenTooltip}`}>
-        <form className={styles.sortForm} onSubmit={handleSubmit}>
-          <input
-            type='radio'
-            name='sort-by-ratings'
-            id='high-low'
-            value='DESC'
-            checked={sortValue === 'DESC'}
-            onChange={handleChange}
-          />
-          <label htmlFor='high-low'>Ratings: High to Low</label>
-          <input
-            type='radio'
-            name='sort-by-ratings'
-            id='low-high'
-            value='ASC'
-            checked={sortValue === 'ASC'}
-            onChange={handleChange}
-          />
-          <label htmlFor='low-high'>Ratings: Low to High</label>
-          <button type="submit" className={styles.applySort}>Apply</button>
-        </form>
+    <>
+      <div className={styles.sortButtonContainer}>
+        <button className={`${styles.sortButton} ${sortOpen ? styles.activeButton : styles.inactiveButton}`} onClick={() => setSortOpen(open => !open)}>Sort</button>
+        <div className={`${styles.tooltipContainer} ${sortOpen ? styles.visibleTooltip : styles.hiddenTooltip}`}>
+          <form className={styles.sortForm} onSubmit={handleSubmit}>
+            <input
+              type='radio'
+              name='sort-by-ratings'
+              id='high-low'
+              value='DESC'
+              checked={sortValue === 'DESC'}
+              onChange={handleChange}
+            />
+            <label htmlFor='high-low'>Ratings: High to Low</label>
+            <input
+              type='radio'
+              name='sort-by-ratings'
+              id='low-high'
+              value='ASC'
+              checked={sortValue === 'ASC'}
+              onChange={handleChange}
+            />
+            <label htmlFor='low-high'>Ratings: Low to High</label>
+            <button type="submit" className={styles.applySort}>Apply</button>
+          </form>
+        </div>
       </div>
-    </div>
+      <div className={`${styles.overlay} ${sortOpen ? styles.activeOverlay : styles.hiddenOverlay}`} />
+    </>
   )
 }
 
